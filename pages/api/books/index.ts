@@ -1,9 +1,13 @@
-import { NextApiResponse, NextApiRequest } from 'next'
-import { books, Book } from '../../../constants/books'
+import { NextApiResponse, NextApiRequest } from "next";
+import { books, Book } from "../../../constants/books";
 
 export default function handler(
-  _req: NextApiRequest,
-  res: NextApiResponse<Book[]>
+  req: NextApiRequest,
+  res: NextApiResponse<Book[] | { message: string }>
 ) {
-  return res.status(200).json(books)
+  if (req.method === "POST") {
+    console.log(req.body);
+    return res.status(200).json({ message: "POST REQUEST SUCCEEDED" });
+  }
+  return res.status(200).json(books);
 }
