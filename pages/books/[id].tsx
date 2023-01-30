@@ -11,14 +11,14 @@ const fetcher = async (url: string) => {
   return data
 }
 
-export default function Person() {
+export default function Books() {
   const { query } = useRouter()
-  const { data, error } = useSWR<any, Book>(
+  const { data, error } = useSWR<Book, {message: string}>(
     () => query.id && `/api/books/${query.id}`,
     fetcher
   )
 console.log("data",data)
-//   if (error) return <div>{error.message}</div>
+  if (error) return <div>{error.message}</div>
   if (!data) return <div>Loading...</div>
 
   return (

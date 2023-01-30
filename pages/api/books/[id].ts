@@ -10,11 +10,11 @@ export default function booksHandler(
   res: NextApiResponse<Book | ResponseError>
 ) {
   const { query } = req;
-  const { title } = query;
-  const filtered = books.find((book) => book.title === title);
+  const { id } = query;
+  const filtered = books.find((book) => book.id === +id);
 
   // User with id exists
   return filtered
     ? res.status(200).json(filtered)
-    : res.status(404).json({ message: `${title} not found.` });
+    : res.status(404).json({ message: `${id} not found.` });
 }
