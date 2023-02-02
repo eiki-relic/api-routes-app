@@ -1,16 +1,23 @@
-import { useEffect, useState } from "react";
+import { User } from '@prisma/client';
+import { useEffect, useState } from 'react';
 
 const Test = () => {
-  const [people, setPeople] = useState({ id: 0, name: "" });
+  const [users, setUsers] = useState<User[]>([]);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/api/people/1");
+      const response = await fetch('/api/user');
       const data = await response.json();
-      setPeople(data);
+      setUsers(data);
     };
     fetchData();
   }, []);
-  return <div>{people.name}</div>;
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.email}</li>
+      ))}
+    </ul>
+  );
 };
 
 export default Test;
