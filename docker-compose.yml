@@ -1,8 +1,8 @@
-version: '3.7'
+version: "3.7"
 
 services:
   app:
-    image: node:18.13.0-alpine
+    image: node:18.13.0
     command: sh -c "rm -rf node_modules yarn.lock && yarn install && yarn dev"
     ports:
       - 3000:3000
@@ -14,7 +14,7 @@ services:
       POSTGRES_PASSWORD: passw0rd
       POSTGRES_DB: mydb
   postgresql:
-    image: postgres:15-alpine
+    image: postgres:15
     ports:
       - 5432:5432
     volumes:
