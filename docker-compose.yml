@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  app:
+    image: node:18.13.0-alpine
+    command: sh -c "rm -rf node_modules yarn.lock && yarn install && yarn dev"
+    ports:
+      - 3000:3000
+    working_dir: /api-routes-app
+    volumes:
+      - .:/api-routes-app
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: passw0rd
+      POSTGRES_DB: mydb
+  postgresql:
+    image: postgres:15-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: passw0rd
+      POSTGRES_DB: mydb
+
+volumes:
+  db-store:
