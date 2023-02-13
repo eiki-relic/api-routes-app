@@ -6,6 +6,7 @@ export default async function handler(
   res: NextApiResponse<User[] | User | { message: string }>
 ) {
   const prisma = new PrismaClient();
+  console.log(1, req.body);
   if (req.method === "POST") {
     const user = await prisma.user.create({
       data: req.body,

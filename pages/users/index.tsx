@@ -10,9 +10,13 @@ const User = () => {
   const onSubmit: SubmitHandler<UserType> = async (data) => {
     fetch("/api/user", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     });
   };
+
   return (
     <div>
       <h2>User作成ページ</h2>
