@@ -4,7 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { User } from "@prisma/client";
 
 const fetcher = async (url: string, method?: object) => {
-  const res = await fetch(url, method);
+  const res = await fetch(url);
+  console.log(res);
   const data = await res.json();
 
   if (res.status !== 200) {
@@ -39,7 +40,7 @@ export default function UserDetail({ user }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1>User Detail</h1>
-      <button onClick={deleteUser} />
+      <button onClick={deleteUser}>Delete</button>
       <div>
         <p>name</p>
         <input {...register("name")} />
@@ -55,22 +56,21 @@ export default function UserDetail({ user }) {
 
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
-  const res = await fetcher(`/api/user`);
-  const users = await res.json();
-
+  const users = await fetcher("http://localhost:3000/api/user");
+  console.log("users", users);
   // Get the paths we want to pre-render based on posts
   const paths = users.map(({ id }) => ({
-    params: { id },
+    params: { id: `${id}` },
   }));
-
+  console.log("paths", paths);
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
   return { paths, fallback: false };
 }
 
 export const getStaticProps = async ({ params }) => {
-  const res = await fetcher(`/api/user/${params.id}`);
-  const user = res.json();
+  console.log("para,s", params);
+  const user = await fetcher(`http://localhost:3000/api/user/${params.id}`);
   // Pass post data to the page via props
   return {
     props: { user },
