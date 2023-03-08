@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { User } from "@prisma/client";
 
 const fetcher = async (url: string, method?: object) => {
-  const res = await fetch(url);
+  const res = await fetch(url, method);
   console.log(res);
   const data = await res.json();
 
@@ -15,6 +15,7 @@ const fetcher = async (url: string, method?: object) => {
 };
 
 export default function UserDetail({ user }) {
+  console.log("大元user", user);
   const { register, handleSubmit } = useForm<Pick<User, "name" | "email">>({
     defaultValues: {
       name: user.name,
@@ -27,13 +28,13 @@ export default function UserDetail({ user }) {
     });
   };
 
-  const onSubmit = async (user) => {
+  const onSubmit = async (data) => {
     await fetcher(`/api/user/${user.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(data),
     });
   };
 
